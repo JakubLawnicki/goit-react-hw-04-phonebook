@@ -1,7 +1,7 @@
 import styles from './filter.module.css';
 import PropTypes from 'prop-types';
 
-export function Filter({ filterValue }) {
+export function Filter({ filter, setFilter }) {
   return (
     <div>
       <p className={styles['filter-text']}>Find contacts by name</p>
@@ -9,7 +9,7 @@ export function Filter({ filterValue }) {
         type="text"
         className={styles.input}
         onChange={e => {
-          filterValue(e.target.value);
+          setFilter((filter = e.target.value));
         }}
       />
     </div>
@@ -17,5 +17,6 @@ export function Filter({ filterValue }) {
 }
 
 Filter.propTypes = {
-  filterValue: PropTypes.func,
+  filter: PropTypes.string,
+  setFilter: PropTypes.func,
 };

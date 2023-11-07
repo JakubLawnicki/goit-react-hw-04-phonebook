@@ -1,11 +1,14 @@
-import styles from "./contactList.module.css";
-import PropTypes from "prop-types";
+import styles from './contactList.module.css';
+import PropTypes from 'prop-types';
 
-export function ContactList({ list, filter, del }) {
-  if (filter === "") {
+export function ContactList({ contactList, filter, setContacts }) {
+  if (contactList === null) {
+    return null;
+  }
+  if (filter === '') {
     return (
-      <ul className={styles["contact-list"]}>
-        {list.map((item) => (
+      <ul className={styles['contact-list']}>
+        {contactList.map(item => (
           <li className={styles.contact} key={item.id}>
             <p>
               {item.name}: {item.number}
@@ -14,9 +17,10 @@ export function ContactList({ list, filter, del }) {
               type="button"
               className={styles.button}
               id={item.id}
-              onClick={(e) => {
-                del(e.target.id);
-                localStorage.removeItem(item.id);
+              onClick={e => {
+                setContacts(
+                  contactList.filter(item => item.id !== e.target.id)
+                );
               }}
             >
               Delete
@@ -29,7 +33,7 @@ export function ContactList({ list, filter, del }) {
   let dispName;
   let dispNumber;
   let id;
-  list.forEach((contact) => {
+  contactList.forEach(contact => {
     if (contact.name.toLowerCase().includes(filter.toLowerCase())) {
       dispName = contact.name;
       dispNumber = contact.number;
@@ -37,7 +41,7 @@ export function ContactList({ list, filter, del }) {
     }
   });
   return (
-    <ul className={styles["contact-list"]}>
+    <ul className={styles['contact-list']}>
       <li className={styles.contact} key={id}>
         {dispName}: {dispNumber}
       </li>
@@ -46,7 +50,7 @@ export function ContactList({ list, filter, del }) {
 }
 
 ContactList.propTypes = {
-  list: PropTypes.array,
+  contactList: PropTypes.array,
   filter: PropTypes.string,
-  del: PropTypes.func,
+  setContacts: PropTypes.func,
 };
